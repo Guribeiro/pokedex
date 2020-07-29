@@ -1,16 +1,17 @@
 import styled from 'styled-components';
 
-export const PokemonStyled = styled.li.attrs(props =>({
+export const PokemonStyled = styled.li.attrs(props => ({
 
 }))`
 
     min-width: 200px;
     margin: 8px auto;
-    padding: 8px;
+    padding: 4px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-radius: 4px;
 
     h1{
         margin: 6px auto;
@@ -19,126 +20,78 @@ export const PokemonStyled = styled.li.attrs(props =>({
         font-size: 14px;
     }
 
-    strong{
-        text-transform: capitalize;
+
+    figure{
+        border: 1px solid #ccc;
+		display: flex;
+		min-width: 180px;
+		flex-direction: column;
+		align-items: center;
+        margin-bottom: 7px;
+        padding: 20px;
+        overflow: hidden;
+
+        img{
+            transition: 0.5s ;
+            cursor: pointer;
+
+            &:hover{
+                transform: scale(1.1);
+            }
+        }
+
+		h2{
+			text-transform: capitalize;
+			margin-top: 14px;
+			font-size: 18px;
+		}
     }
 
-    button{
-        width: 100px;
-        margin-top: 7px;
+    a{
+        text-decoration: none;
+        text-align: center;
+        font-size: 12px;
+        width: 120px;
+        margin: 12px auto;
         background: #ee5253;
         color: #fff;
         border: none;
         padding: 6px;
         border-radius: 4px;
 
-    }
-
-    figure{
-        border: 1px solid red;
-        padding: 12px;
-        margin-bottom: 7px;
-
-        img{
-            border: 1px solid blue;
-        }
-
-    }
-
-    a{
-        text-decoration: none;
-        margin: 7px  auto; 
-        font-size: 12px;
-        color: #222;
+        transition: 0.2s;
 
         &:hover{
-            text-decoration: underline;
+            -webkit-box-shadow: 0px 6px 5px -3px rgba(0,0,0,0.3);
+            -moz-box-shadow: 0px 6px 5px -3px rgba(0,0,0,0.3);
+            box-shadow: 0px 6px 5px -3px rgba(0,0,0,0.3);
         }
     }
 `;
 
-export const Loading = styled.div`
-    border: 1px solid blue;
-    min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+export const ButtonFavorite = styled.button.attrs(props => ({
+    favorite: props.favorite
+}))`
 
-	h1{
-		color: #222;
-		font-size: 36px;
-	}
-`;
+    padding: 2px 6px;
+    background: transparent;
 
-export const Details = styled.section`
-    min-width: 150px;
-    margin: 8px auto;
-    padding: 8px;
+    svg{
+        color: #4b4b4b;
+        fill: ${props => props.favorite ? '#fff200' : 'transparent'};
+        font-size: 20px;
+        font-weight: 900;
+		transition: 0.2s;
 
-    border: 1px solid red;
-`;
+		&:hover{
+			fill: #fff200;
+		}
 
-export const TypeStyled = styled.ul`
-    list-style: none;
-    border: 1px solid green;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    font-size: 10px;
-    padding: 4px;
-
-    li{
-        font-weight: 600;
-        text-transform: uppercase;
-    }
-    strong{
-        text-transform: lowercase;
-    }
-`;
-
-export const AttributeStyled = styled.article`
-    border: 1px solid red;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    padding: 4px;
-
-    span{
-        width: 100%;
-        margin: 4px auto;
-        padding: 2px;
-        font-size: 12px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-        text-transform: uppercase;
-        color: #fff;
-        background: #3ae374;
-        border-radius: 50px;
-        border: 2px solid #218c74;
+		&:active{
+			transform: translateY(4px);
+		}
     }
 
-    section{
-        border: 1px solid blue;
-        width: 100%;
-        margin: 4px auto;
-        padding: 2px;
-
-        display: grid;
-        grid-template-columns: 2fr 2fr;
-        grid-gap: 2px;
-        
-
-        strong{
-            border: 1px solid red;
-            font-size: 10px;
-        }
-    }
 `;
 
 

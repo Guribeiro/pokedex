@@ -1,5 +1,5 @@
-export const filter = (stats, attr) =>{
-    return stats.filter((item) =>{
-        return item.stat.name === attr
+export const filter = (arr, attr) =>{
+    return arr.filter((item) =>{
+        return item.favorite === attr
     })
 }
