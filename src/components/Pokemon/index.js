@@ -1,128 +1,74 @@
-import React, { useEffect, useState } from 'react';
-import { pokemon } from '../../services/api';
+import React, { useEffect, useState, Fragment } from 'react';
+import { api } from '../../services/api';
 import { Link } from 'react-router-dom';
 
-import { filter } from '../../utils/index';
+import { FiStar } from 'react-icons/fi';
 
-import { PokemonStyled, Loading, Details, TypeStyled, AttributeStyled } from './styles';
-
-
-export default function Pokemon({ entry_number }) {
-
-    const [objPokemon, setObjPokemon] = useState({});
-    const [loading, setLoading] = useState(true);
-    const [details, setDetails] = useState(false);
-
-    useEffect(() => {
-
-        const loadPokemons = async () => {
-            const response = await pokemon.get(`${entry_number}`);
-
-            const { data, status } = response;
+import { PokemonStyled, ButtonFavorite } from './styles';
 
 
-            if (status === 200) {
+export default function Pokemon({ name }) {
 
-                const { id, name, height, sprites, stats, types } = data;
+	const [pokemons, setPokemons] = useState([]);
 
-                const { front_default } = sprites
+	const [favorite, setFavorite] = useState(false);
 
-                const pokemon_hp = filter(stats, 'hp');
-                const pokemon_attack = filter(stats, 'attack');
-                const pokemon_defense = filter(stats, 'defense');
-                const pokemon_speed = filter(stats, 'speed');
+	useEffect(() => {
 
-                console.log(pokemon_attack)
+		const loadPokemons = async () => {
+			const response = await api.get(`pokemon/${name}`);
 
-                const dataFetched = {
-                    id,
-                    name,
-                    front_default,
-                    height,
-                    stats: {
-                        hp: [...pokemon_hp],
-                        attack: [...pokemon_attack],
-                        defense: [...pokemon_defense],
-                        speed: [...pokemon_speed],
-                    },
-                    types
-                }
+			const { data, status } = response;
 
-                setObjPokemon(dataFetched);
-                setLoading(false);
-            }
-        }
-        loadPokemons();
-    }, [entry_number])
+			if (status === 200) {
 
-    function showDetails() {
-        if (details) {
-            setDetails(false);
-        }
-        else {
-            setDetails(true);
-        }
-    }
+				const { id, name, sprites } = data;
 
-    if (loading) {
-        return (
-            <Loading>
-                <h1>Loading</h1>
-            </Loading>
+				const { front_default } = sprites
 
-        );
-    }
-    return (
-        <PokemonStyled>
-            <h1>#{entry_number}</h1>
-            <figure>
-                <img src={objPokemon.front_default} alt={objPokemon.name} />
-            </figure>
-            <strong>{objPokemon.name}</strong>
-            <button onClick={showDetails}>See more</button>
-            {details ?
-                <Details>
-                    <TypeStyled >
-                        {objPokemon.types.map(objpoke => (
-                            <li>
-                                {objpoke.type.name}
-                            </li>
-                        ))}
-                    </TypeStyled>
-                    <AttributeStyled>
-                        {objPokemon.stats.hp.map(stat => (
-                            <span>
-                                {stat.stat.name} - {stat.base_stat}
-                            </span>
-                        ))}
+				const dataFetched = {
+					id,
+					name,
+					front_default,
+					favorite,
+				}
 
-                        <section>
-                            {objPokemon.stats.attack.map(stat => (
-                                <strong>
-                                    {stat.stat.name}:{stat.base_stat}
-                                </strong>
-                            ))}
+				setPokemons([dataFetched]);
 
-                            {objPokemon.stats.defense.map(stat => (
-                                <strong>
-                                    {stat.stat.name}:{stat.base_stat}
-                                </strong>
-                            ))}
+			}
+		}
+		loadPokemons();
+	}, [name, favorite])
 
-                            {objPokemon.stats.speed.map(stat => (
-                                <strong>
-                                    {stat.stat.name}:{stat.base_stat}
-                                </strong>
-                            ))}
 
-                            <strong>
-                                Height:{objPokemon.height}
-                            </strong>
-                        </section>
-                    </AttributeStyled>
-                </Details>
-                : ''}
-            <Link>See evolutions</Link>
-        </PokemonStyled>
-    )
+	const handleFavorite = (pokemon) => {
+
+		const { favorite } = pokemon;
+
+		if (favorite) {
+			setFavorite(false)
+		}
+		else {
+			setFavorite(true)
+		}
+
+	}
+
+	return (
+		<Fragment>
+			{pokemons.map(pokemon => (
+				<PokemonStyled key={pokemon.id}>
+					<h1>#{pokemon.id}</h1>
+					<figure>
+						<img src={pokemon.front_default} alt="" />
+						<h2>{pokemon.name}</h2>
+					</figure>
+					<ButtonFavorite onClick={() => { handleFavorite(pokemon) }} favorite={pokemon.favorite}>
+						<FiStar />
+					</ButtonFavorite>
+					<Link to={`/pokemon/${pokemon.name}`}>Details</Link>
+				</PokemonStyled>
+			))}
+		</Fragment>
+	)
 }
