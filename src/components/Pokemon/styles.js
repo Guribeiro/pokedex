@@ -83,15 +83,15 @@ export const ButtonFavorite = styled.button.attrs(props => ({
         font-weight: 900;
 		transition: 0.2s;
 
-		&:hover{
+		@media(min-width: 416px){
+			&:hover{
 			fill: #fff200;
 		}
 
-		&:active{
-			transform: translateY(4px);
+			&:active{
+				transform: translateY(4px);
+			}
 		}
     }
 
 `;
-
-
