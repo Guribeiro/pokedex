@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../../services/api';
 
+import { SubContainer, PokedexStyled, PokemonInfos, PokemonStats } from './styles';
 import { Link } from 'react-router-dom';
-
 import { FiArrowLeft } from 'react-icons/fi';
+
+import Loading from '../../components/Loading';
 
 import Container from '../../components/Container';
 
-import { SubContainer, PokedexStyled, PokemonInfos, PokemonStats } from './styles';
 
 
 export default function Pokemon({ match }) {
@@ -58,8 +59,6 @@ export default function Pokemon({ match }) {
 					height,
 					weight,
 				}
-
-
 				setPokemon(dataFetched);
 				setLoading(false)
 			}
@@ -70,7 +69,10 @@ export default function Pokemon({ match }) {
 	}, [match])
 
 	if (loading) {
-		return <h1>Loading</h1>
+		return (
+			<Loading>
+				<h1>Loaging</h1>
+			</Loading>)
 	}
 
 	return (

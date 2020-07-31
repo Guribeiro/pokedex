@@ -2,19 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { api } from '../../services/api';
 
 import { PokeList, PagionationStyled } from './styles';
-
-import Loading from '../../components/Loading';
-
-import Container from '../../components/Container';
-
 import { FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
 
+import Loading from '../../components/Loading';
+import Container from '../../components/Container';
 import Pokemon from '../../components/Pokemon';
+
+
+
 
 export default function Home() {
 
     const [pokemons, setPokemons] = useState([]);
-    const [page, setPage] = useState([10, 0]);
+	const [page, setPage] = useState([10, 0]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -29,24 +29,26 @@ export default function Home() {
                 }
             });
 
-            const { results } = data;
-            setPokemons(results);
-            setLoading(false)
-        }
-        fetchData();
+			const { results } = data;
 
-    }, [page])
+            setPokemons(results);
+			setLoading(false)
+
+        }
+		fetchData();
+
+	}, [page])
 
     function handlePage(action){
         const [limit, offset] = page;
 
         if(action === 'back'){
+			setPage([limit, offset - limit])
 
-            setPage([limit, offset - limit])
         }
         else{
             setPage([limit, offset + limit])
-        }
+		}
 
     }
 
@@ -64,7 +66,7 @@ export default function Home() {
         <Container>
             <PokeList>
                 {pokemons.map(pokemon => (
-                    <Pokemon key={pokemon.name} {...pokemon} />
+                    <Pokemon page={page} key={pokemon.name} {...pokemon} />
                 ))}
             </PokeList>
             <PagionationStyled>
