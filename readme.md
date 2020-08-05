@@ -4,7 +4,7 @@
 Pokédex Online
 </h1>
 
-## Check some of your favorite pokemon [Here!](https://pokedex-rust.vercel.app/)
+## Check some of your favorites pokemon [Here!](https://pokedex-rust.vercel.app/)
 
 
 
